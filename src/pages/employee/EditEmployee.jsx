@@ -127,8 +127,7 @@ function EditEmployee() {
         try {
             const results = await Promise.allSettled([
                 apiClient.get(`${baseURL}/employees/${id}`),
-                apiClient.get(`${baseURL}/employee-positions/emp-id/${id}`),
-                apiClient.get(`${baseURL}/job-experiences/emp-id/${id}`),
+                 apiClient.get(`${baseURL}/job-experiences/emp-id/${id}`),
                 apiClient.get(`${baseURL}/family-members/emp-id/${id}`),
                 apiClient.get(`${baseURL}/emp-educations/emp-id/${id}`),
                 apiClient.get(`${baseURL}/emp-military-obligations/emp-id/${id}`),
@@ -141,8 +140,7 @@ function EditEmployee() {
 
             const [
                 employeeRes,
-                positionRes,
-                jobExpRes,
+                 jobExpRes,
                 memberFamily,
                 education,
                 empMilitary,
@@ -164,8 +162,7 @@ function EditEmployee() {
             setInitialValues((prev) => ({
                 ...prev,
                 employee: withEmpId(safeData(employeeRes, {})),
-                employeePosition: withEmpId(safeData(positionRes, [])),
-                employeeExperience: withEmpId(safeData(jobExpRes, [])),
+                 employeeExperience: withEmpId(safeData(jobExpRes, [])),
                 empFamilyMembers: withEmpId(safeData(memberFamily, [])),
                 employeeEducation: withEmpId(safeData(education, [])),
                 employeeMilitary: withEmpId(safeData(empMilitary, [])),
@@ -192,20 +189,7 @@ function EditEmployee() {
     }, []);
 
 
-    const columnPos = [
-        {Header: "Əməliyyat növü", accessor: "procedureType"},
-        {Header: "Struktur qurum", accessor: "department"},
-        {Header: "Başladığı tarix", accessor: "startDate"},
-        {Header: "Bitmə tarixi", accessor: "endDate"},
-        {Header: "Sınaq müddəti", accessor: "trialPeriod"},
-        {Header: "Müqavilə müddəti", accessor: "contractTerm"},
-        {
-            Header: "",
-            accessor: "actions",
-            Cell: ({row}) => renderActionPos(row),
-            width: "5%",
-        },
-    ];
+
 
     const columnWorkExperience = [
         {Header: "İşlədiyi qurum", accessor: "companyName"},
@@ -317,19 +301,7 @@ function EditEmployee() {
         }
     ]
 
-    const renderActionPos = (row) => (
-        <MDBox display="flex" gap={1} alignItems="center" justifyContent="flex-end">
-            <IconButton size="small" onClick={() => handleEditClick(1, {empPosId: row.original.empPosId})}>
-                <img src={Edit} alt="Edit"/>
-            </IconButton>
-            <IconButton
-                size="small"
-                onClick={() => handleDelete(row.original.empPosId, "employee-positions", "empPosId", "employeePosition")}
-            >
-                <img src={Delete} alt="Delete"/>
-            </IconButton>
-        </MDBox>
-    );
+
 
     const renderActionExperience = (row) => (
         <MDBox display="flex" gap={1} alignItems="center" justifyContent="flex-end">
@@ -493,8 +465,7 @@ function EditEmployee() {
             dsmfCardNo: null,
             note: null
         },
-        employeePosition: [],
-        employeeExperience: [],
+         employeeExperience: [],
         employeeCourseAndCertification: [],
         employeeLanguageSkill: [],
         employeeComputerSkill: [],
@@ -1097,14 +1068,16 @@ function EditEmployee() {
                                                 }}
                                             >
                                                 <Icon sx={{mr: 1}} fontSize="small">add</Icon>
-                                                Vəzifə əlavə et
+                                               İş təcrübəsi əlavə et
                                             </MDButton>
                                         </MDBox>
-                                        <DataTable table={{columns: columnPos, rows: initialValues.employeePosition}}
+                                        <DataTable table={{
+                                            columns: columnWorkExperience,
+                                            rows: initialValues.employeeExperience
+                                        }}
                                                    isSorted={false}
                                                    canSearch={false}
                                         />
-
                                     </TabPanel>
                                     <TabPanel value={tabIndex} index={2}>
                                         <MDBox
@@ -1125,36 +1098,6 @@ function EditEmployee() {
                                                 }}
                                             >
                                                 <Icon sx={{mr: 1}} fontSize="small">add</Icon>
-                                               İş təcrübəsi əlavə et
-                                            </MDButton>
-                                        </MDBox>
-                                        <DataTable table={{
-                                            columns: columnWorkExperience,
-                                            rows: initialValues.employeeExperience
-                                        }}
-                                                   isSorted={false}
-                                                   canSearch={false}
-                                        />
-                                    </TabPanel>
-                                    <TabPanel value={tabIndex} index={3}>
-                                        <MDBox
-                                            sx={{
-                                                display: 'flex',
-                                                justifyContent: 'end'
-                                            }}
-                                        >
-                                            <MDButton
-                                                variant="gradient"
-                                                color="primary"
-                                                onClick={() => handleEditClick(3, null)}
-                                                sx={{
-                                                    boxShadow: "none",
-                                                    "&:hover": {
-                                                        boxShadow: "none",
-                                                    },
-                                                }}
-                                            >
-                                                <Icon sx={{mr: 1}} fontSize="small">add</Icon>
                                                Ailə üzvü əlavə et
                                             </MDButton>
                                         </MDBox>
@@ -1164,7 +1107,7 @@ function EditEmployee() {
                                             canSearch={false}
                                         />
                                     </TabPanel>
-                                    <TabPanel value={tabIndex} index={4}>
+                                    <TabPanel value={tabIndex} index={3}>
                                         <MDBox>
                                             <MDBox
                                                 sx={{
@@ -1175,7 +1118,7 @@ function EditEmployee() {
                                                 <MDButton
                                                     variant="gradient"
                                                     color="primary"
-                                                    onClick={() => handleEditClick(4, null,'education')}
+                                                    onClick={() => handleEditClick(3, null,'education')}
                                                     sx={{
                                                         boxShadow: "none",
                                                         "&:hover": {
@@ -1210,7 +1153,7 @@ function EditEmployee() {
                                                 <MDButton
                                                     variant="gradient"
                                                     color="primary"
-                                                    onClick={() => handleEditClick(4, null,'course')}
+                                                    onClick={() => handleEditClick(3, null,'course')}
                                                     sx={{
                                                         boxShadow: "none",
                                                         "&:hover": {
@@ -1246,7 +1189,7 @@ function EditEmployee() {
                                                 <MDButton
                                                     variant="gradient"
                                                     color="primary"
-                                                    onClick={() => handleEditClick(4, null,'lang')}
+                                                    onClick={() => handleEditClick(3, null,'lang')}
                                                     sx={{
                                                         boxShadow: "none",
                                                         "&:hover": {
@@ -1280,7 +1223,7 @@ function EditEmployee() {
                                                 <MDButton
                                                     variant="gradient"
                                                     color="primary"
-                                                    onClick={() => handleEditClick(4, null,'comp')}
+                                                    onClick={() => handleEditClick(3, null,'comp')}
                                                     sx={{
                                                         boxShadow: "none",
                                                         "&:hover": {
@@ -1305,33 +1248,6 @@ function EditEmployee() {
                                             />
                                         </MDBox>
                                     </TabPanel>
-                                    <TabPanel value={tabIndex} index={6}>
-                                        <MDBox
-                                            sx={{
-                                                display: 'flex',
-                                                justifyContent: 'end'
-                                            }}
-                                        >
-                                            <MDButton
-                                                variant="gradient"
-                                                color="primary"
-                                                onClick={() => handleEditClick(6, null)}
-                                                sx={{
-                                                    boxShadow: "none",
-                                                    "&:hover": {
-                                                        boxShadow: "none",
-                                                    },
-                                                }}
-                                            >
-                                                <Icon sx={{mr: 1}} fontSize="small">add</Icon>
-                                               Kontakt əlavə et
-                                            </MDButton>
-                                        </MDBox>
-                                        <DataTable
-                                            table={{columns: columnContactDetail, rows: initialValues.employeeContact}}
-                                            isSorted={false}
-                                            canSearch={false}/>
-                                    </TabPanel>
                                     <TabPanel value={tabIndex} index={5}>
                                         <MDBox
                                             sx={{
@@ -1351,6 +1267,33 @@ function EditEmployee() {
                                                 }}
                                             >
                                                 <Icon sx={{mr: 1}} fontSize="small">add</Icon>
+                                               Kontakt əlavə et
+                                            </MDButton>
+                                        </MDBox>
+                                        <DataTable
+                                            table={{columns: columnContactDetail, rows: initialValues.employeeContact}}
+                                            isSorted={false}
+                                            canSearch={false}/>
+                                    </TabPanel>
+                                    <TabPanel value={tabIndex} index={4}>
+                                        <MDBox
+                                            sx={{
+                                                display: 'flex',
+                                                justifyContent: 'end'
+                                            }}
+                                        >
+                                            <MDButton
+                                                variant="gradient"
+                                                color="primary"
+                                                onClick={() => handleEditClick(4, null)}
+                                                sx={{
+                                                    boxShadow: "none",
+                                                    "&:hover": {
+                                                        boxShadow: "none",
+                                                    },
+                                                }}
+                                            >
+                                                <Icon sx={{mr: 1}} fontSize="small">add</Icon>
                                                Hərbi mükəlləfiyyət əlavə et
                                             </MDButton>
                                         </MDBox>
@@ -1361,7 +1304,7 @@ function EditEmployee() {
                                                    isSorted={false}
                                                    canSearch={false}
                                         /> </TabPanel>
-                                    <TabPanel value={tabIndex} index={7}>
+                                    <TabPanel value={tabIndex} index={6}>
                                         <MDBox
                                             sx={{
                                                 display: 'flex',
@@ -1371,7 +1314,7 @@ function EditEmployee() {
                                             <MDButton
                                                 variant="gradient"
                                                 color="primary"
-                                                onClick={() => handleEditClick(7, null)}
+                                                onClick={() => handleEditClick(6, null)}
                                                 sx={{
                                                     boxShadow: "none",
                                                     "&:hover": {

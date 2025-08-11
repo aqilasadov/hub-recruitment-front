@@ -547,7 +547,7 @@ function DataTables() {
                                                 }}
                                             >
                                                 <Icon sx={{mr: 1}} fontSize="small">add</Icon>
-                                                Yeni İşçi məlumatları əlavə et
+                                                Yeni İşçi
                                             </MDButton>
                                         )
                                     }

@@ -87,8 +87,7 @@ const contactSchema = Yup.object().shape({
 
 const validationSchema = Yup.object().shape({
     employee: Yup.object().shape({
-        tableNumber: Yup.string().required("Table nömrəsi mütləqdir"),
-        firstName: Yup.string().required("Ad mütləqdir"),
+         firstName: Yup.string().required("Ad mütləqdir"),
         regAddr: Yup.string().required('Qeydiyyat ünvanı mütləqdir'),
         lastName: Yup.string().required("Soyad mütləqdir"),
         identityDocId: Yup.number()
@@ -98,8 +97,7 @@ const validationSchema = Yup.object().shape({
         dateOfIssue: Yup.date().nullable("Sənədin verilmə tarixi mütləqdir").required('Sənədin verilmə tarixi mütləqdir'),
         dateOfExpire: Yup.date().min(Yup.ref('dateOfIssue'), "Bitiş tarixi başladığı tarixdən böyük olmalıdır")
             .nullable("Sənədin bitmə tarixi mütləqdir").required('Sənədin bitmə tarixi mütləqdir'),
-        ownerEmpId: Yup.number().typeError("Birbaşa direktor mütləqdir").required('Birbaşa direktor mütləqdir'),
-    }),
+     }),
 
     empPosition: Yup.object().shape({
         procedureTypeId: Yup.number()
