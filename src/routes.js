@@ -110,12 +110,12 @@ const getCustomRoutes = (user) => {
 
         {
             type: "collapse",
-            name: "İnsan Resursları (HR)",
+            name: "Müraciətlər",
             key: "hr",
             icon: <Icon fontSize="small">group</Icon>,
             collapse: [
                 {
-                    name: "İşçi Məlumatları",
+                    name: "Vakantlar",
                     key: "employees",
                     route: "/modules/employees",
                     requiredPrivilege: "EMPLOYEE_VIEW",

@@ -42,8 +42,6 @@ const EmployeeFilter = ({isOpen, onClose, onApplyFilter}) => {
     const [surName, setSurname] = useState("");
     const [statusOptions, setStatusOptions] = useState([]);
     const [departmentOptions, setDepartmentOptions] = useState([]);
-    const [status, setStatus] = useState(statusOptions[0]);
-    const [department, setDepartment] = useState(departmentOptions[0]);
 
 
     useEffect(() => {
@@ -74,7 +72,7 @@ const EmployeeFilter = ({isOpen, onClose, onApplyFilter}) => {
     };
 
     const handleApply = () => {
-        onApplyFilter({name, tableNumber});
+        onApplyFilter({name});
         onClose();
     };
 
@@ -120,9 +118,6 @@ const EmployeeFilter = ({isOpen, onClose, onApplyFilter}) => {
                 <MDBox>
 
                     <MDBox display="flex" flexDirection="column" gap={1}>
-                        <MDInput label="Table nömrəsi"
-                                 value={tableNumber}
-                                 onChange={(e) => setTableNumber(e.target.value)}/>
                         <MDInput label="Finkodu"
                                  value={finCode}
                                  onChange={(e) => setFinCode(e.target.value)}/>
@@ -132,32 +127,6 @@ const EmployeeFilter = ({isOpen, onClose, onApplyFilter}) => {
                         <MDInput label="Soyadı"
                                  value={surName}
                                  onChange={(e) => setSurname(e.target.value)}/>
-                        <Autocomplete
-                            options={departmentOptions}
-                            getOptionLabel={(option) => option.depTitle}
-                            value={department}
-                            onChange={(event, newValue) => {
-                                setDepartment(newValue);
-                            }}
-                            renderInput={(params) => (
-                                <TextField {...params} label="Departament"
-                                />
-                            )}
-                            isOptionEqualToValue={(option, value) => option.depId === value.depId}
-                        />
-                        <Autocomplete
-                            options={statusOptions}
-                            getOptionLabel={(option) => option.title}
-                            value={status}
-                            onChange={(event, newValue) => {
-                                setStatus(newValue);
-                            }}
-                            renderInput={(params) => (
-                                <TextField {...params} label="Status"
-                                />
-                            )}
-                            isOptionEqualToValue={(option, value) => option.id === value.id}
-                        />
 
                     </MDBox>
                     <MDBox display="flex" justifyContent="center" mt={2}>
@@ -211,7 +180,7 @@ function DataTables() {
             Cell: ({row}) => (
                 <img
                     loading="lazy"
-                    src={row.original.imageUrl ? row.original.imageUrl : defaultAvatar}
+                    src={row.original.imageUrl}
                     alt="Şəkil"
                     style={{
                         width: "50px",
@@ -353,6 +322,7 @@ function DataTables() {
             username: emp.username,
             fin: emp.fin,
             position: emp.position,
+            imageUrl: emp.imageUrl,
             actions: renderActions(emp),
         }));
 
@@ -410,7 +380,7 @@ function DataTables() {
         const exportData = prepareExportData();
         const worksheet = XLSX.utils.json_to_sheet(exportData);
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "İşçi məlumatları");
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Vakantlar");
         const excelBuffer = XLSX.write(workbook, {bookType: 'xlsx', type: 'array'});
         const data = new Blob([excelBuffer], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
         saveAs(data, 'isci-melumatlari.xlsx');
@@ -460,14 +430,6 @@ function DataTables() {
                         </MDBox>
                         <MDTypography
                             variant="h6">{`${employee.firstName} ${employee.lastName} ${employee.fatherName}`}</MDTypography>
-                        <MDTypography variant="body2">
-                            <span style={{color: "#9e9e9e"}}>Departament: </span>
-                            {employee.department || "-"}
-                        </MDTypography>
-                        <MDTypography variant="body2">
-                            <span style={{color: "#9e9e9e"}}>Vəzifə: </span>
-                            {employee.position || "-"}
-                        </MDTypography>
                         <MDBox mt={1}>
                             {
                                 allowUpdating && (
@@ -504,7 +466,7 @@ function DataTables() {
                             >
                                 <MDBox p={3} lineHeight={1}>
                                     <MDTypography variant="h5" fontWeight="medium">
-                                        İşçi Məlumatları
+                                        Vakantlar
                                     </MDTypography>
                                 </MDBox>
                                 <MDBox display="flex" gap={2} alignItems="center" pr={3}>

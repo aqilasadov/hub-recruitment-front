@@ -22,6 +22,7 @@ import Card from "@mui/material/Card";
 import {StoreContext} from "../../context/StoreContext";
 import {toast} from "react-toastify";
 import DeleteConfirmation from "../../components/Modals/DeleteConfirmation";
+import ProfilePhotoCard from "./ProfilePhotoCard";
 
 
 function TabPanel({children, value, index}) {
@@ -83,12 +84,12 @@ function EditEmployee() {
         const {selectedId, endpoint, idKey, fieldKey} = selectedClientIdToDelete;
         if (endpoint === 'roles/emp-role-list') {
             const obj = {
-                empId:Number(id),
+                empId: Number(id),
                 roleId: selectedId
             }
-            console.log('obj deleted',obj);
+            console.log('obj deleted', obj);
             try {
-                const response = await apiClient.delete(`${baseURL}/${endpoint}`,obj);
+                const response = await apiClient.delete(`${baseURL}/${endpoint}`, obj);
                 if (response.status >= 200 && response.status < 300) {
                     toast.success("Məlumat müvəffəqiyyətlə silindi!");
                     setInitialValues((prev) => ({
@@ -100,8 +101,7 @@ function EditEmployee() {
             } catch (error) {
                 console.log("Error deleting:", error);
             }
-        }
-        else{
+        } else {
             if (selectedId && fieldKey) {
                 try {
                     const response = await apiClient.delete(`${baseURL}/${endpoint}/${selectedId}`);
@@ -127,7 +127,7 @@ function EditEmployee() {
         try {
             const results = await Promise.allSettled([
                 apiClient.get(`${baseURL}/employees/${id}`),
-                 apiClient.get(`${baseURL}/job-experiences/emp-id/${id}`),
+                apiClient.get(`${baseURL}/job-experiences/emp-id/${id}`),
                 apiClient.get(`${baseURL}/family-members/emp-id/${id}`),
                 apiClient.get(`${baseURL}/emp-educations/emp-id/${id}`),
                 apiClient.get(`${baseURL}/emp-military-obligations/emp-id/${id}`),
@@ -140,7 +140,7 @@ function EditEmployee() {
 
             const [
                 employeeRes,
-                 jobExpRes,
+                jobExpRes,
                 memberFamily,
                 education,
                 empMilitary,
@@ -162,7 +162,7 @@ function EditEmployee() {
             setInitialValues((prev) => ({
                 ...prev,
                 employee: withEmpId(safeData(employeeRes, {})),
-                 employeeExperience: withEmpId(safeData(jobExpRes, [])),
+                employeeExperience: withEmpId(safeData(jobExpRes, [])),
                 empFamilyMembers: withEmpId(safeData(memberFamily, [])),
                 employeeEducation: withEmpId(safeData(education, [])),
                 employeeMilitary: withEmpId(safeData(empMilitary, [])),
@@ -187,8 +187,6 @@ function EditEmployee() {
     useEffect(() => {
         fetchEmployeeList();
     }, []);
-
-
 
 
     const columnWorkExperience = [
@@ -300,7 +298,6 @@ function EditEmployee() {
             width: '5%'
         }
     ]
-
 
 
     const renderActionExperience = (row) => (
@@ -465,7 +462,7 @@ function EditEmployee() {
             dsmfCardNo: null,
             note: null
         },
-         employeeExperience: [],
+        employeeExperience: [],
         employeeCourseAndCertification: [],
         employeeLanguageSkill: [],
         employeeComputerSkill: [],
@@ -541,6 +538,17 @@ function EditEmployee() {
                                         <Tab label="Rollar"/>
                                     </Tabs>
                                     <TabPanel value={tabIndex} index={0}>
+                                        <ProfilePhotoCard employee={initialValues.employee}
+                                                          onFileChange={(newFileId) =>
+                                                              setInitialValues((prev) => ({
+                                                                  ...prev,
+                                                                  employee: {
+                                                                      ...prev.employee,
+                                                                      fileId: newFileId,
+                                                                  },
+                                                              }))
+                                                          }
+                                        />
                                         <MDBox>
                                             <MDBox display='flex' justifyContent='center' alignItems='center' gap={1}>
                                                 <Typography variant="body1">Şəxsi məlumatlar</Typography>
@@ -1068,7 +1076,7 @@ function EditEmployee() {
                                                 }}
                                             >
                                                 <Icon sx={{mr: 1}} fontSize="small">add</Icon>
-                                               İş təcrübəsi əlavə et
+                                                İş təcrübəsi əlavə et
                                             </MDButton>
                                         </MDBox>
                                         <DataTable table={{
@@ -1098,7 +1106,7 @@ function EditEmployee() {
                                                 }}
                                             >
                                                 <Icon sx={{mr: 1}} fontSize="small">add</Icon>
-                                               Ailə üzvü əlavə et
+                                                Ailə üzvü əlavə et
                                             </MDButton>
                                         </MDBox>
                                         <DataTable
@@ -1118,7 +1126,7 @@ function EditEmployee() {
                                                 <MDButton
                                                     variant="gradient"
                                                     color="primary"
-                                                    onClick={() => handleEditClick(3, null,'education')}
+                                                    onClick={() => handleEditClick(3, null, 'education')}
                                                     sx={{
                                                         boxShadow: "none",
                                                         "&:hover": {
@@ -1127,7 +1135,7 @@ function EditEmployee() {
                                                     }}
                                                 >
                                                     <Icon sx={{mr: 1}} fontSize="small">add</Icon>
-                                                   Təhsil əlavə et
+                                                    Təhsil əlavə et
                                                 </MDButton>
                                             </MDBox>
                                             <MDBox display='flex' justifyContent='center' alignItems='center' gap={1}>
@@ -1153,7 +1161,7 @@ function EditEmployee() {
                                                 <MDButton
                                                     variant="gradient"
                                                     color="primary"
-                                                    onClick={() => handleEditClick(3, null,'course')}
+                                                    onClick={() => handleEditClick(3, null, 'course')}
                                                     sx={{
                                                         boxShadow: "none",
                                                         "&:hover": {
@@ -1162,7 +1170,7 @@ function EditEmployee() {
                                                     }}
                                                 >
                                                     <Icon sx={{mr: 1}} fontSize="small">add</Icon>
-                                                   Kurs əlavə et
+                                                    Kurs əlavə et
                                                 </MDButton>
                                             </MDBox>
                                             <MDBox display='flex' justifyContent='center' alignItems='center' gap={1}>
@@ -1189,7 +1197,7 @@ function EditEmployee() {
                                                 <MDButton
                                                     variant="gradient"
                                                     color="primary"
-                                                    onClick={() => handleEditClick(3, null,'lang')}
+                                                    onClick={() => handleEditClick(3, null, 'lang')}
                                                     sx={{
                                                         boxShadow: "none",
                                                         "&:hover": {
@@ -1223,7 +1231,7 @@ function EditEmployee() {
                                                 <MDButton
                                                     variant="gradient"
                                                     color="primary"
-                                                    onClick={() => handleEditClick(3, null,'comp')}
+                                                    onClick={() => handleEditClick(3, null, 'comp')}
                                                     sx={{
                                                         boxShadow: "none",
                                                         "&:hover": {
@@ -1232,7 +1240,7 @@ function EditEmployee() {
                                                     }}
                                                 >
                                                     <Icon sx={{mr: 1}} fontSize="small">add</Icon>
-                                                   Komputer biliyi əlavə et
+                                                    Komputer biliyi əlavə et
                                                 </MDButton>
                                             </MDBox>
                                             <MDBox display='flex' justifyContent='center' alignItems='center' gap={1}>
@@ -1267,7 +1275,7 @@ function EditEmployee() {
                                                 }}
                                             >
                                                 <Icon sx={{mr: 1}} fontSize="small">add</Icon>
-                                               Kontakt əlavə et
+                                                Kontakt əlavə et
                                             </MDButton>
                                         </MDBox>
                                         <DataTable
@@ -1294,7 +1302,7 @@ function EditEmployee() {
                                                 }}
                                             >
                                                 <Icon sx={{mr: 1}} fontSize="small">add</Icon>
-                                               Hərbi mükəlləfiyyət əlavə et
+                                                Hərbi mükəlləfiyyət əlavə et
                                             </MDButton>
                                         </MDBox>
                                         <DataTable table={{
@@ -1323,7 +1331,7 @@ function EditEmployee() {
                                                 }}
                                             >
                                                 <Icon sx={{mr: 1}} fontSize="small">add</Icon>
-                                              Rol əlavə et
+                                                Rol əlavə et
                                             </MDButton>
                                         </MDBox>
                                         <DataTable

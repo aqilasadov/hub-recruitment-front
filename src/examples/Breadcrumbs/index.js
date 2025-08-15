@@ -24,7 +24,7 @@ function Breadcrumbs({
 
     const formatRouteName = (name) => {
         const routeMap = {
-            "employees": "İşçi Məlumatları",
+            "employees": "Vakantlar",
             "edit-employee-tab-items": "Dəyişiklik et",
             "profile": "Profil",
             "logout": "Çıxış",
